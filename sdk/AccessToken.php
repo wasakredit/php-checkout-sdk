@@ -15,7 +15,11 @@ use \DateTime;
 use \DateTimeZone;
 use \DateInterval;
 
-session_start();
+if(!isset($_SESSION))
+{
+  session_start();
+}
+
 
 class AccessToken
 {
