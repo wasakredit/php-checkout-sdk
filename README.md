@@ -1,4 +1,4 @@
-# Wasa Kredit Client PHP SDK v2.0
+# Wasa Kredit Client PHP SDK v2.1
 
 **Table of Content**
 
@@ -10,10 +10,18 @@
   * [Validate Allowed Leasing Amount](#validate_allowed_leasing_amount)
   * [Create Product Widget](#create_product_widget)
   * [Get Order](#get_order)  
+  * [Get Order status](#get_order_status)
+  * [Update Order status](#update_order_status)
+  * [Add Order Reference](#add_order_reference)
 * [Handling the Response](#handling_the_response)
 
 
 ## <a name="change_log"></a>Change log
+
+### What's new in v2.1
+
+Added support for the missing endpoints *Get Order Status* and *Update Order Status*.
+Also documentation for *Add Order Reference* is now in place.
 
 ### What's new in v2.0
 
@@ -531,6 +539,109 @@ $response = $this->_client->get_order($orderId);
       "image_url": "https://unsplash.it/500/500"
     }
   ]
+}
+```
+
+### <a name="get_order_status"></a>Get Order Status
+
+Gets the current status of a Wasa Kredit order.
+
+When an order status change notification is received. This method may be called to check the current status of the order.
+
+##### Order statuses
+
+* initialized - This is the initial statue of an order, will proceed to pending when signed by a customer
+* canceled - The order has been canceled for some reason.
+* pending - The order is awaiting signing and/or credit check approval.
+* ready_to_ship - The credit agreement has been approved and signed and the order is therefore ready to be shipped.
+* shipped - The order has been shipped to the customer.
+* completed - The order is shipped and completed.
+
+#### Parameters
+| Name | Type | Description |
+|---|---|---|
+| order_id | *string* (required) | The id of the desired order object |
+
+#### Example usage:
+
+```
+$orderId = 'f404e318-7180-47ab-91db-fbb66addf577'
+$response = $this->_client->get_order_status($orderId);
+```
+
+#### Response
+```
+{
+  "status": "shipped"
+}
+```
+
+
+### <a name="update_order_status"></a>Update Order Status
+
+Changes the status of the Wasa Kredit order. This method should be used to update the Wasa Kredit order status if you have shipped or canceled the order. Thus it is only possible to set the status to "canceled" or "shipped". The status can only be set to "canceled" if it has not already been shipped or completed and to "shipped" if its current status is "ready_to_ship."
+
+##### Order statuses
+
+* canceled - The order has been canceled for some reason.
+* shipped - The order has been shipped to the customer.
+
+
+#### Parameters
+| Name | Type | Description |
+|---|---|---|
+| order_id | *string* (required) | The id of the order object          |
+| status   | *string* (required) | The status to update the order with |
+
+#### Example usage:
+
+```
+$orderId = 'f404e318-7180-47ab-91db-fbb66addf577';
+$orderStatus = 'shipped';
+$response = $this->_client->update_order_status($orderId, $orderStatus);
+```
+
+#### Response
+```
+{
+  "status": "shipped"
+}
+```
+
+### <a name="add_order_reference"></a>Add Order Reference
+
+Adds a new order reference and appends it to the current order references of the order. The purpose of supporting multiple order references for a single order is to provide generic support for e-commerce platforms and solutions that use multiple references in their purchase and order flow.
+
+#### Parameters
+| Name | Type | Description |
+|---|---|---|
+| order_id         | *string* (required)         | The id of the order object                            |
+| order_reference  | *OrderReference*-object (required) | The order reference that should be added to the order |
+
+##### OrderReference
+
+| Name | Type | Description |
+|---|---|---|
+| key   | *string* (required) | The key of the order reference   |
+| value | *string* (required) | The value of the order reference |
+
+
+#### Example usage:
+
+```
+$orderId = 'f404e318-7180-47ab-91db-fbb66addf577';
+$orderReference = array(
+                    'key' => 'Quote',
+                    'value' => '0b5e6f69-20ac-45b1-93d5-2c1be556488b'
+                  );
+
+$response = $this->_client->add_order_reference($orderId, $orderReference);
+```
+
+#### Response
+```
+{
+  "status": "shipped"
 }
 ```
 
