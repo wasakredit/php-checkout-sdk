@@ -6,7 +6,8 @@
 * [Available methods](#available_methods)
   * [Calculate Leasing Cost](#calculate_leasing_cost)
   * [Calculate Total Leasing Costs](#calculate_total_leasing_cost)
-  * [Create Checkout](#create_checkout)  
+  * [Create Checkout](#create_checkout)
+    * [Handling custom checkout callbacks](#handle_custom_callbacks)
   * [Validate Allowed Leasing Amount](#validate_allowed_leasing_amount)
   * [Create Product Widget](#create_product_widget)
   * [Get Order](#get_order)  
@@ -40,7 +41,7 @@ This documentation is about the PHP SDK for communicating with Wasa Kredit check
 
 ### Acquiring the SDK
 
-You can apply to recieve the SDK and Partner credentials by sending a mail to [ehandel@wasakredit.se](mailto:ehandel@wasakredit.se).
+You can apply to recieve Partner credentials by sending a mail to [ehandel@wasakredit.se](mailto:ehandel@wasakredit.se).
 
 ### Initialization
 
@@ -357,7 +358,7 @@ When you want to initialize the checkout, just call the global ```window.wasaChe
 </script>
 ```
 
-##### Handling custom checkout callbacks
+##### <a name="handle_custom_callbacks"></a>Handling custom checkout callbacks
 
 Optionally, you're able to pass an options object to the ```init```-function. Use this if you want to manually handle the onComplete, onRedirect and onCancel events.
 
