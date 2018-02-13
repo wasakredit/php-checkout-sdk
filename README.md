@@ -96,12 +96,14 @@ public function calculate_leasing_cost({ITEMS})
 | items | *array[**Item**]* (required) | An array containing the data type **Item** |
 
 ##### Item
+
 | Name | Type | Description |
 |---|---|---|
 | financed_price | *Price* (required) | ... |
 | product_id | *string* (required) | Your unique product identifier |
 
 ##### Price
+
 | Name | Type | Description |
 |---|---|---|
 | amount | *string* (required) | A string value that will be parsed to a decimal, e.g. 199 is '199.00' |
@@ -273,6 +275,7 @@ public function create_checkout({CHECKOUT})
 | ping_url | *string* (required) | Receiver url for order status changes notifications |
 
 ##### Cart Item
+
 | Name | Type | Description |
 |---|---|---|
 | product_id | *string* (required) | Id of the Product |
@@ -404,6 +407,7 @@ public function validate_allowed_leasing_amount($amount)
 ```
 
 #### Parameters
+
 | Name | Type | Description |
 |---|---|---|
 | amount | *string* (required) | The amount excluding VAT to be validated as a string, e.g. 199 is '199.00' |
@@ -474,10 +478,6 @@ $response->data
 
    "<div> ... </div>"
 ```
-
-
-
-
 
 ### <a name="get_order"></a>Get Order
 
@@ -559,6 +559,7 @@ When an order status change notification is received. This method may be called 
 * completed - The order is shipped and completed.
 
 #### Parameters
+
 | Name | Type | Description |
 |---|---|---|
 | order_id | *string* (required) | The id of the desired order object |
@@ -571,6 +572,7 @@ $response = $this->_client->get_order_status($orderId);
 ```
 
 #### Response
+
 ```
 {
   "status": "shipped"
@@ -589,6 +591,7 @@ Changes the status of the Wasa Kredit order. This method should be used to updat
 
 
 #### Parameters
+
 | Name | Type | Description |
 |---|---|---|
 | order_id | *string* (required) | The id of the order object          |
@@ -603,6 +606,7 @@ $response = $this->_client->update_order_status($orderId, $orderStatus);
 ```
 
 #### Response
+
 ```
 {
   "status": "shipped"
@@ -614,6 +618,7 @@ $response = $this->_client->update_order_status($orderId, $orderStatus);
 Adds a new order reference and appends it to the current order references of the order. The purpose of supporting multiple order references for a single order is to provide generic support for e-commerce platforms and solutions that use multiple references in their purchase and order flow.
 
 #### Parameters
+
 | Name | Type | Description |
 |---|---|---|
 | order_id         | *string* (required)         | The id of the order object                            |
@@ -640,6 +645,7 @@ $response = $this->_client->add_order_reference($orderId, $orderReference);
 ```
 
 #### Response
+
 ```
 {
   "status": "shipped"
@@ -651,6 +657,7 @@ $response = $this->_client->add_order_reference($orderId, $orderReference);
 We are using a Response class when passing information through the SDK.
 
 ###  Properties
+
 | Name | Type | Description |
 |---|---|---|
 | statusCode | *string* | Http status code of the response |
