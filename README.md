@@ -112,14 +112,16 @@ public function calculate_leasing_cost({ITEMS})
 
 ```
 $payload = array(
-              'items' => array(
-                 'financed_price' => array(
-                    'amount' => '14995.00',
-                    'currency' => 'SEK'
-                 ),
-                 'product_id' => '12345'
-              )
-           );
+  'items' => array(
+    [0] => array(
+      'financed_price' => array(
+        'amount' => '14995.00',
+        'currency' => 'SEK'
+      ),
+      'product_id' => '12345'
+    )
+  )
+);
 
 $response = $this->_client->calculate_leasing_cost($payload);
 ```
