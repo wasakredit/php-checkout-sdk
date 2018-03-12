@@ -7,7 +7,6 @@
   * [Calculate Leasing Cost](#calculate_leasing_cost)
   * [Calculate Total Leasing Costs](#calculate_total_leasing_cost)
   * [Create Checkout](#create_checkout)
-    * [Handling custom checkout callbacks](#handle_custom_callbacks)
   * [Validate Allowed Leasing Amount](#validate_allowed_leasing_amount)
   * [Create Product Widget](#create_product_widget)
   * [Get Order](#get_order)  
@@ -247,6 +246,7 @@ $response->data
 ```
 
 ### <a name="create_checkout"></a>Create Checkout
+
 The Checkout is inserted as a Payment Method in the checkout. It could be used either with or without input fields for address. Post the cart to Create Checkout to initiate the checkout.
 
 An alternative use case for the Checkout is as a complete checkout if there is no need for other payment methods.
@@ -353,9 +353,9 @@ $payload = array(
 $response = $this->_client->create_checkout($payload);
 ```
 
-##### Initialization
+##### Initialize checkout
 
-When you want to initialize the checkout, just call the global ```window.wasaCheckout.init()```.
+After creating a Wasa Kredit Checkout by calling the `create_checkout` function and embedding the resulting html snippet in your web page, as described above, the checkout html snippet needs to be explicitly initialized through a javascript call to the global `window.wasaCheckout.init()` function. The `init` method call will populate the \<div\> contained in the html snippet and link it to an internal iframe.
 
 ```javascript
 <script>
@@ -365,7 +365,7 @@ When you want to initialize the checkout, just call the global ```window.wasaChe
 
 ##### <a name="handle_custom_callbacks"></a>Handling custom checkout callbacks
 
-Optionally, you're able to pass an options object to the ```init```-function. Use this if you want to manually handle the onComplete, onRedirect and onCancel events.
+Optionally, you're able to pass an options object to the `init`-function. Use this if you want to manually handle the onComplete, onRedirect and onCancel events.
 
 ```javascript
 <script>
@@ -384,14 +384,14 @@ Optionally, you're able to pass an options object to the ```init```-function. Us
 </script>
 ```
 
-The ```onComplete``` event will be raised when a User has completed the checkout process. We recommend that you convert your cart/checkout to an order here if you haven't done it already.
+The `onComplete` event will be raised when a User has completed the checkout process. We recommend that you convert your cart/checkout to an order here if you haven't done it already.
 
-The ```onRedirect``` event will be raised the user clicks the "back to store/proceed"-button. The default behaviour will redirect the user to the ```confirmation_callback_url``` passed into the ```create_checkout```-function.
+The `onRedirect` event will be raised the user clicks the "back to store/proceed"-button. The default behaviour will redirect the user to the `confirmation_callback_url` passed into the `create_checkout`-function.
 
-The ```onCancel``` event will be raised if the checkout process is canceled by the user or Wasa Kredit.
+The `onCancel` event will be raised if the checkout process is canceled by the user or Wasa Kredit.
 
-All callback functions will get the ```orderReferences``` parameter passed from the checkout. This parameter consists of an Array of ```KeyValue``` objects.
-These are the same values as the ones that was passed to the ```create_checkout```-function as the ```order_references``` property.
+All callback functions will get the `orderReferences` parameter passed from the checkout. This parameter consists of an Array of `KeyValue` objects.
+These are the same values as the ones that was passed to the `create_checkout`-function as the `order_references` property.
 
 ```javascript
 orderReferences = [
@@ -445,6 +445,7 @@ public function create_product_widget($payload)
 ```
 
 #### Parameters
+
 | Name | Type | Description |
 |---|---|---|
 | financial_product | *string* (required) | The amount to be validated |
@@ -484,6 +485,7 @@ $response->data
 ### <a name="get_order"></a>Get Order
 
 #### Parameters
+
 | Name | Type | Description |
 |---|---|---|
 | order_id | *string* (required) | The id of the desired order object |
@@ -551,14 +553,13 @@ Gets the current status of a Wasa Kredit order.
 
 When an order status change notification is received. This method may be called to check the current status of the order.
 
-##### Order statuses
+###### <a name="order_statuses">Possible order statuses</a>
 
-* initialized - This is the initial statue of an order, will proceed to pending when signed by a customer
-* canceled - The order has been canceled for some reason.
-* pending - The order is awaiting signing and/or credit check approval.
-* ready_to_ship - The credit agreement has been approved and signed and the order is therefore ready to be shipped.
-* shipped - The order has been shipped to the customer.
-* completed - The order is shipped and completed.
+* **initialized** - The order has been created but the order agreement has not yet been signed by the customer.
+* **canceled** - The purchase was not approved by Wasa Kredit or it has been canceled by you as a partner. If you have created an order in your system it can safely be deleted.
+* **pending** - The checkout has been completed and a customer has signed the order agreement, but additional signees is required or the order has not yet been fully approved by Wasa Kredit.
+* **ready\_to\_ship** - All necessary signees have signed the order agreement and the order has been fully approved by Wasa Kredit. The order must now be shipped to the customer before Wasa Kredit will issue the payment to you as a partner.
+* **shipped** - This status is set by the partner when the order item(s) have been shipped to the customer.
 
 #### Parameters
 
@@ -667,7 +668,6 @@ We are using a Response class when passing information through the SDK.
 | error | *string* | Error code passed from the API |
 | errorMessage | *string* | Developer error message |
 | curlError | *string* | Curl error message |
-
 
 
 ## Running the tests
