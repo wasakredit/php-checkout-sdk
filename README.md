@@ -4,10 +4,9 @@
 
 * [Change log](#change_log)
 * [Available methods](#available_methods)
-  * [Calculate Leasing Cost](#calculate_leasing_cost)
-  * [Calculate Total Leasing Costs](#calculate_total_leasing_cost)
+  * [Calculate Monthly Cost](#calculate_monthly_cost)
   * [Create Checkout](#create_checkout)
-  * [Validate Allowed Leasing Amount](#validate_allowed_leasing_amount)
+  * [Validate Financed Amount](#validate_financed_amount)
   * [Create Product Widget](#create_product_widget)
   * [Get Order](#get_order)  
   * [Get Order status](#get_order_status)
@@ -80,12 +79,12 @@ $this->_client = new Client(clientId, clientSecret, testMode);
 
 ## <a name="available_methods"></a>Available methods
 
-### <a name="calculate_leasing_cost"></a>Calculate Leasing Cost
+### <a name="calculate_monthly_cost"></a>Calculate Monthly Cost
 
-When presenting a product list view this method calculates the leasing price for each of the products.
+When presenting a product list view this method calculates the monthly price for each of the products.
 
 ```
-public function calculate_leasing_cost({ITEMS})
+public function calculate_monthly_cost({ITEMS})
 ```
 
 #### Parameters
@@ -123,14 +122,14 @@ $payload = array(
   )
 );
 
-$response = $this->_client->calculate_leasing_cost($payload);
+$response = $this->_client->calculate_monthly_cost($payload);
 ```
 
 #### Response
 
 | Name | Type | Description |
 |---|---|---|
-| leasing_costs | *array[**Response Item**]* | An array containing the data type **Response Item** |
+| monthly_costs | *array[**Response Item**]* | An array containing the data type **Response Item** |
 
 ##### Response Item
 
@@ -153,7 +152,7 @@ $response = $this->_client->calculate_leasing_cost($payload);
 $response->data
 
 {
-  'leasing_costs': [
+  'monthly_costs': [
     {
       'monthly_cost': {
         'amount': '1152.00',
@@ -162,86 +161,6 @@ $response->data
       'product_id': '12345'
     }
   ]
-}
-```
-
-
-### <a name="calculate_total_leasing_cost"></a>Calculate Total Leasing Costs
-
-Calculates the total monthly leasing costs for all the partner's contract lengths.
-
-```
-public function calculate_total_leasing_cost({PAYLOAD})
-```
-
-#### Parameters
-
-| Name | Type | Description |
-|---|---|---|
-| total_amount | *Price* (required) | The total amount of the cart items excluding VAT as a Price object |
-
-##### Price
-
-| Name | Type | Description |
-|---|---|---|
-| amount | *string* (required) | A string value that will be parsed to a decimal, e.g. 199 is '199.00' |
-| currency | *string* (required) | The currency |
-
-#### Example usage:
-
-```
-$payload = array(
-              'total_amount' => array(
-                 'amount' => '14995.00',
-                 'currency' => 'SEK'
-              )
-           );
-
-$response = $this->_client->calculate_total_leasing_cost($payload);
-```
-
-#### Response
-
-| Name | Type | Description |
-|---|---|---|
-| default_contract_length | *int* | Default lease period in month |
-| contract_lengths | *array[ContractLength]* | An array of all the partners available leasing options |
-
-##### ContractLength
-
-| Name | Type | Description |
-|---|---|---|
-| contract_length | *int* | Lease period in month |
-| monthly_cost | *Price* | Price object containing the amount of the leasing option |
-
-##### Price
-
-| Name | Type | Description |
-|---|---|---|
-| amount | *string* (required) | A string value that will be parsed to a decimal, e.g. 199 is '199.00' |
-| currency | *string* | The currency |
-
-```
-$response->data
-
-{
-    'default_contract_length': 24,
-    'contract_lengths': [
-        {
-            'contract_length': 12,
-            'monthly_cost': {
-                'amount': '802.00'
-                'currency: 'SEK'
-            }
-        },
-        {
-            'contract_length': 24,
-            'monthly_cost': {
-                'amount': '442.00'
-                'currency: 'SEK'
-            }
-        }
-    ]
 }
 ```
 
@@ -260,7 +179,6 @@ public function create_checkout({CHECKOUT})
 | Name | Type | Description |
 |---|---|---|
 | payment_types | *string* | Selected payment type to use in the checkout, e.g. 'leasing' |
-| order_reference_id | *string* (required) | The order reference of the partner |
 | order_references | *array* | The order reference of the partner | A list containing order references. |
 | cart_items | *array[Cart Item]* (required) | An array of the items in the cart as Cart Item objects |
 | shipping_cost_ex_vat | *Price* (required) | Price object containing the shipping cost excluding VAT |
@@ -318,7 +236,6 @@ The response will return a unique html snippet to be embedded in your checkout h
 
 ```
 $payload = array(
-  'order_reference_id' => 'a1234567890-1337',
   'order_references' => array(
     [0] => array(
       'key' => 'magento_quote_id',
@@ -400,12 +317,12 @@ orderReferences = [
 ];    
 ```
 
-### <a name="validate_allowed_leasing_amount"></a>Validate Allowed Leasing Amount
+### <a name="validate_financed_amount"></a>Validate Financed Amount
 
 Validates that the amount is within the min/max financing amount for the partner.
 
 ```
-public function validate_allowed_leasing_amount($amount)
+public function validate_financed_amount($amount)
 ```
 
 #### Parameters
@@ -419,7 +336,7 @@ public function validate_allowed_leasing_amount($amount)
 ```
 $amount = '14995.00';
 
-$response = $this->_client->validate_allowed_leasing_amount($amount);
+$response = $this->_client->validate_financed_amount($amount);
 ```
 
 #### Response
@@ -438,7 +355,7 @@ $response->data
 
 ### <a name="create_product_widget"></a>Create Product Widget
 
-To inform the customer about leasing as a Payment Method the Product Widget should be displayed close to the price information on the product detail page.
+To inform the customer about Wasa Kredit financing as a Payment Method the Product Widget should be displayed close to the price information on the product detail page.
 
 ```
 public function create_product_widget($payload)
@@ -469,7 +386,7 @@ $payload = array(
               )
            );
 
-$response = $this->_client->validate_allowed_leasing_amount($amount);
+$response = $this->_client->create_product_widget($payload);
 ```
 
 #### Response
