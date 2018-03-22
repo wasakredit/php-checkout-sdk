@@ -439,7 +439,7 @@ $response = $this->_client->get_order($orderId);
       "value": "123456"
     }
   ],
-  "purchaser_email": "ander.svensson@starrepublic.com",
+  "purchaser_email": "anders.svensson@starrepublic.com",
   "recipient_name": "Anders Svensson",
   "recipient_phone": "070-1234567",
   "status": {
