@@ -1,4 +1,4 @@
-# Wasa Kredit Client PHP SDK v2.1
+# Wasa Kredit Client PHP SDK v2.2
 
 **Table of Content**
 
@@ -16,6 +16,13 @@
 
 
 ## <a name="change_log"></a>Change log
+
+### What's new in v2.2
+
+New generic operation names matching api changes.  
+Added tracking of SDK and Plugin version to header of API calls.  
+
+
 
 ### What's new in v2.1
 
