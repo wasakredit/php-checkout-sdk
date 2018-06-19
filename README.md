@@ -640,11 +640,6 @@ $response = $this->_client->get_payment_methods($total_amount, $currency);
 
 ```
 
-
-
-
-
-
 ## <a name="handling_the_response"></a>Handling the Response
 
 We are using a Response class when passing information through the SDK.
