@@ -10,4 +10,3 @@ function wasa_config($key = '')
 
     return isset($wasa_configuration[$key]) ? $wasa_configuration[$key] : null;
 }
-?>
