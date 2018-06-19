@@ -132,7 +132,6 @@ class Client
 
     public function get_payment_methods($amount, $currency) // @codingStandardsIgnoreLine
     {
-        // {total_amount}
         return $this->api_client->execute($this->base_url . "/v1/payment-methods?total_amount=" . $amount . "&currency=" . $currency, "GET", null);
     }
 }
