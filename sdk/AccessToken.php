@@ -40,7 +40,7 @@ class AccessToken
 
     private function has_expired() // @codingStandardsIgnoreLine
     {
-        return !empty($_SESSION["token_expiry"]) ? $this->get_date_now_utc() >= $_SESSION["token_expiry"] : true;
+        return !empty($_SESSION["wasa_kredit_access_token"][$this->client_id]["token_expiry"]) ? $this->get_date_now_utc() >= $_SESSION["wasa_kredit_access_token"][$this->client_id]["token_expiry"] : true;
     }
 
     private function get_date_now_utc() // @codingStandardsIgnoreLine
@@ -55,7 +55,7 @@ class AccessToken
         return $expiresAt;
     }
 
-    private function constructPOSTFields()
+    private function constructPOSTFields() // @codingStandardsIgnoreLine
     {
         $encodedID = urlencode($this->client_id);
         $encodedSecret = urlencode($this->client_secret);
@@ -65,8 +65,8 @@ class AccessToken
 
     public function get_token() // @codingStandardsIgnoreLine
     {
-        if (!empty($_SESSION["token"]) && !empty($_SESSION["token_expiry"]) && !$this->has_expired()) {
-            return $_SESSION["token"];
+        if (!empty($_SESSION["wasa_kredit_access_token"][$this->client_id]["access_token"]) && !empty($_SESSION["wasa_kredit_access_token"][$this->client_id]["token_expiry"]) && !$this->has_expired()) {
+            return $_SESSION["wasa_kredit_access_token"][$this->client_id]["access_token"];
         }
 
         $curl = curl_init();
@@ -109,11 +109,19 @@ class AccessToken
             return null;
         }
 
-        $_SESSION["token"] = !empty($decoded_json['access_token']) ? $decoded_json['access_token'] : "";
-        $_SESSION["token_expiry"] = !empty($decoded_json['expires_in'])
+        $access_token = !empty($decoded_json['access_token']) ? $decoded_json['access_token'] : "";
+        $access_token_expiry = !empty($decoded_json['expires_in'])
             ? $this->get_expires_at($decoded_json['expires_in'])
             : $this->get_date_now_utc();
 
-        return $_SESSION["token"];
+        $wasa_kredit_access_token = array();
+        $wasa_kredit_access_token[$this->client_id] = array(
+          "access_token" => $access_token,
+          "token_expiry" => $access_token_expiry,
+        );
+
+        $_SESSION["wasa_kredit_access_token"] = $wasa_kredit_access_token;
+
+        return $wasa_kredit_access_token;
     }
 }
