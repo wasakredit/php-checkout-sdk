@@ -19,7 +19,8 @@
 
 ### What's new in 2.3
 
-Added new operation "Get Payment Methods". This can be used for a more detailed description of the Wasa Kredit Checkout payment method.
+Added new operation "Get Payment Methods". This can be used for a more detailed description of the Wasa Kredit Checkout payment method.  
+Resolve an issue with session scoping when running multiple partners on the same session/domain.
 
 ### What's new in v2.2
 
