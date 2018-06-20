@@ -39,9 +39,9 @@ class AccessToken
     $this->test_mode = $test_mode;
   }
 
-  private function has_expired()
+  private function has_expired() // @codingStandardsIgnoreLine
   {
-    return !empty($_SESSION["token_expiry"]) ? $this->get_date_now_utc() >= $_SESSION["token_expiry"] : true;
+    return !empty($_SESSION["wasa_kredit_access_token"][$this->client_id]["token_expiry"]) ? $this->get_date_now_utc() >= $_SESSION["wasa_kredit_access_token"][$this->client_id]["token_expiry"] : true;
   }
 
   private function get_date_now_utc()
@@ -64,11 +64,10 @@ class AccessToken
     return $fields;
   }
 
-  public function get_token()
-  {    
-    if (!empty($_SESSION["token"]) && !empty($_SESSION["token_expiry"]) && !$this->has_expired())
-    {
-      return $_SESSION["token"];
+  public function get_token() // @codingStandardsIgnoreLine
+  {
+    if (!empty($_SESSION["wasa_kredit_access_token"][$this->client_id]["access_token"]) && !empty($_SESSION["wasa_kredit_access_token"][$this->client_id]["token_expiry"]) && !$this->has_expired()) {
+        return $_SESSION["wasa_kredit_access_token"][$this->client_id]["access_token"];
     }
 
     $curl = curl_init();
@@ -76,9 +75,8 @@ class AccessToken
     $headers = array();
     $headers[] = "content-type: application/x-www-form-urlencoded";
 
-    if($this->test_mode)
-    {
-      $headers[] = "x-test-mode: true";
+    if ($this->test_mode) {
+        $headers[] = "x-test-mode: true";
     }
 
     curl_setopt_array($curl, array(
@@ -98,18 +96,33 @@ class AccessToken
 
     curl_close($curl);
 
-    // Enable if dev mode
-    // echo "cURL Error #:" . $err;
-    if($err) return null;
-    if(!$response) return null;
+    if ($err) {
+        return null;
+    }
+
+    if (!$response) {
+        return null;
+    }
 
     $decoded_json = json_decode($response, true);
-  
-    if(!empty($decoded_json['error'])) return null;
 
-    $_SESSION["token"] = !empty($decoded_json['access_token']) ? $decoded_json['access_token']: "";
-    $_SESSION["token_expiry"] = !empty($decoded_json['expires_in']) ? $this->get_expires_at($decoded_json['expires_in']) : $this->get_date_now_utc();
-    
-    return $_SESSION["token"];
+    if (!empty($decoded_json['error'])) {
+        return null;
+    }
+
+    $access_token = !empty($decoded_json['access_token']) ? $decoded_json['access_token'] : "";
+    $access_token_expiry = !empty($decoded_json['expires_in'])
+        ? $this->get_expires_at($decoded_json['expires_in'])
+        : $this->get_date_now_utc();
+
+    $wasa_kredit_access_token = array();
+    $wasa_kredit_access_token[$this->client_id] = array(
+      "access_token" => $access_token,
+      "token_expiry" => $access_token_expiry,
+    );
+
+    $_SESSION["wasa_kredit_access_token"] = $wasa_kredit_access_token;
+
+    return $wasa_kredit_access_token;
   }
 }
