@@ -276,9 +276,9 @@ $payload = array(
     'amount' => '448.00',
     'currency' => 'SEK'
   ),
-  'request_domain' => 'https://www.wasakredit.se/',
-  'confirmation_callback_url' => 'https://www.wasakredit.se/payment-callback/',
-  'ping_url' => 'https://www.wasakredit.se/ping-callback/'
+  'request_domain' => 'https://YOUR-BASE-DOMAIN/',
+  'confirmation_callback_url' => 'https://YOUR-BASE-DOMAIN/payment-callback/',
+  'ping_url' => 'https://YOUR-BASE-DOMAIN/ping-callback/'
 );           
 
 $response = $this->_client->create_checkout($payload);
