@@ -4,7 +4,7 @@ function wasa_config($key = '')
     $wasa_configuration = [
         'base_url' => 'https://b2b.services.wasakredit.se',
         'access_token_url' => 'https://b2b.services.wasakredit.se/auth/connect/token',
-        'version' => 'php-2.4',
+        'version' => 'php-2.5',
         'plugin' => null
     ];
 
