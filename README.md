@@ -388,7 +388,7 @@ public function get_monthly_cost_widget($amount)
 #### Example usage:
 
 ```
-$response = $this->_client->create_product_widget('10275.00');
+$response = $this->_client->get_monthly_cost_widget('10275.00');
 ```
 
 #### Response
