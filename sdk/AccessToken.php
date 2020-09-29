@@ -23,8 +23,6 @@ if (!isset($_SESSION)) {
 class AccessToken
 {
     private $_token_url;
-    private $token;
-    private $expires_at;
 
     private $client_id;
     private $client_secret;

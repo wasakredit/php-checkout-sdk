@@ -11,6 +11,18 @@ namespace Sdk;
  * @package    Client PHP SDK
  */
 
+class ClientFactory {
+    public static function CreateClient($clientId, $clientSecret, $testMode = true) {
+        if($testMode != true) {
+            return new Client($clientId, $clientSecret, 'base_url', 'access_token_url', false);
+        }
+        else {
+            return new Client($clientId, $clientSecret, 'test_base_url', 'test_access_token_url', true);
+        }
+    }
+}
+
+
 class Client
 {
     private $base_url;
@@ -63,7 +75,6 @@ class Client
         $this->api_client = new Api($clientId, $clientSecret);
     }
 
-   
 
     public function calculate_monthly_cost($calculateMonthlyCostBody) // @codingStandardsIgnoreLine
     {
@@ -82,7 +93,11 @@ class Client
         return $this->api_client->execute($this->base_url . "/v4/leasing/checkout", "POST", $createCheckoutBody);
     }
 
-    
+    public function create_invoice_checkout($createCheckoutBody) // @codingStandardsIgnoreLine
+    {
+        return $this->api_client->execute($this->base_url . "/v4/invoice/checkout", "POST", $createCheckoutBody);
+    }
+
     public function validate_financed_amount($amount) // @codingStandardsIgnoreLine
     {
         return $this->api_client->execute($this->base_url . "/v4/leasing/validate-financed-amount?amount=" . $amount, "GET", null);
