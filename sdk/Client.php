@@ -146,6 +146,12 @@ class Client
 
     public function get_payment_methods($amount) // @codingStandardsIgnoreLine
     {
-        return $this->api_client->execute($this->base_url . "/v4/payment-options?total_amount=" . $amount , "GET", null);
+        return $this->api_client->execute($this->base_url . "/v4/payment-methods?total_amount=" . $amount , "GET", null);
     }
+
+    public function get_leasing_payment_options($amount) // @codingStandardsIgnoreLine
+    {
+        return $this->api_client->execute($this->base_url . "/v4/leasing/payment-options?total_amount=" . $amount , "GET", null);
+    }
+
 }
