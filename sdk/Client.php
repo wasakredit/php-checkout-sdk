@@ -29,7 +29,6 @@ class Client
     private $token_client;
     private $client_id;
     private $client_secret;
-    private $test_mode;
     private $api_client;
     private $codes = array(
         '100' => 'Continue',
@@ -128,11 +127,6 @@ class Client
     {
         return $this->api_client->execute($this->base_url . "/v4/orders/" . $orderId . "/status", "GET", null);
     }
-
-    // public function update_order_status($orderId, $orderStatus) // @codingStandardsIgnoreLine
-    // {
-    //     return $this->api_client->execute($this->base_url . "/v1/orders/" . $orderId . "/status/" . $orderStatus, "PUT", null);
-    // }
     
     public function ship_order($orderId) // @codingStandardsIgnoreLine
     {
