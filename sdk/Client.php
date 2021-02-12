@@ -78,7 +78,7 @@ class Client
 
     public function calculate_monthly_cost($calculateMonthlyCostBody) // @codingStandardsIgnoreLine
     {
-        return $this->api_client->execute($this->base_url . "/v4/leasing/monthly-cost", "POST", $calculateMonthlyCostBody);
+        return $this->api_client->execute($this->base_url . "/v4/leasing/monthly-cost", "POST", $calculateMonthlyCostBody, 2);
     }
 
     /**
@@ -100,18 +100,18 @@ class Client
 
     public function validate_financed_amount($amount) // @codingStandardsIgnoreLine
     {
-        return $this->api_client->execute($this->base_url . "/v4/leasing/validate-financed-amount?amount=" . $amount, "GET", null);
+        return $this->api_client->execute($this->base_url . "/v4/leasing/validate-financed-amount?amount=" . $amount, "GET", null, 2);
     }
 
     public function validate_financed_invoice_amount($amount) // @codingStandardsIgnoreLine
     {
-        return $this->api_client->execute($this->base_url . "/v4/invoice/validate-financed-amount?amount=" . $amount, "GET", null);
+        return $this->api_client->execute($this->base_url . "/v4/invoice/validate-financed-amount?amount=" . $amount, "GET", null, 2);
     }
 
 
     public function get_monthly_cost_widget($amount) //@codingStandardsIgnoreLine
     {
-      return $this->api_client->execute($this->base_url . "/v4/leasing/widgets/monthly-cost?amount=".$amount."&currency=SEK", "GET", null);
+      return $this->api_client->execute($this->base_url . "/v4/leasing/widgets/monthly-cost?amount=".$amount."&currency=SEK", "GET", null, 2);
     }
 
     public function add_order_reference($orderId, $orderReferences) // @codingStandardsIgnoreLine
