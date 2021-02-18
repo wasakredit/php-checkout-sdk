@@ -146,7 +146,7 @@ class Client
 
     public function get_leasing_payment_options($amount) // @codingStandardsIgnoreLine
     {
-        return $this->api_client->execute($this->base_url . "/v4/leasing/payment-options?total_amount=" . $amount , "GET", null);
+        return $this->api_client->execute($this->base_url . "/v4/leasing/payment-options?amount=" . $amount, "GET", null);
     }
 
 }
